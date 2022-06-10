@@ -1,0 +1,36 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<h1 class="Center-title">Cart</h1>
+
+<!-- card_Product -->
+<div>
+<table class="table container" id="main-container" >
+  <thead>
+      <tr>
+          <th scope="col">BookName</th>
+          <th scope="col">Price</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Editor</th>
+      </tr>
+  </thead>
+  <tbody *ngFor="let data of cartItems">
+      <tr>
+          <td>{{data.itemId}}</td>
+          <td>{{data.price}}</td>
+          <td>{{data.amount}}</td>
+          <td>
+              <!-- <a  class="btn-edit btn btn-info tooltips" data-placement="top"
+                  data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil"></i> </a> -->
+              <a (click)="onDeleteBook(data.itemId)"  class="btn btn-danger tooltips" data-placement="top"
+                  data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
+          </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+<div class="col text-right">
+  <button routerLink="/order" class="btn-payment btn btn-success">Payment</button>
+</div>
+
+
+<!-- Editmodal  -->
+

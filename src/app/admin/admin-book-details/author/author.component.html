@@ -1,0 +1,111 @@
+<h1 class="Center-title">Authors</h1>
+<form class="search-form form-inline">
+    <input class="search form-control mr-sm-2" type="search" #key="ngModel" ngModel name="key" placeholder="Search" style="padding-left: 10px;">
+    <button (click)="searchAuthors(key.value)" class="btn btn-outline-success my-2 my-sm-0 btn-search" type="submit">Search</button>
+    <a (click)="onOpenModal(null, 'add')" class="btn btn-add btn-outline-primary"><i class="fa fa-plus-circle"></i>Add</a>
+</form>
+<div>
+<table class="table container" id="main-container">
+    <thead>
+        <tr>
+            <th scope="col">Author Name</th>
+            <th scope="col">Editor</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let author of authors | paginate: { itemsPerPage: 5, currentPage: p }">
+        <tr>
+            <td>{{author?.authorName}}</td>
+            <td>
+                <a (click)="onOpenModal(author, 'edit')" class="btn-edit btn btn-info tooltips" data-placement="top"
+                    data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                <a (click)="onOpenModal(author, 'delete')" class="btn btn-danger tooltips" data-placement="top"
+                    data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<pagination-controls style="text-align:center" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<!-- Addmodal -->
+<div class="modal fade" id="addAuthorModal" tabindex="-1" role="dialog" aria-labelledby="addCateModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCateModalLabel">Add form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #addForm="ngForm" (ngSubmit)="onAddAuthor(addForm)" ngNativeValidate>
+                    <div class="form-group">
+                        <label for="bookname" class="col-form-label">Author Name:</label>
+                        <input type="text" ngModel name="authorName" class="form-control" id="bookname" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" id="add-book-form" class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button [disabled]="addForm.invalid" class="btn btn-primary" type="submit"
+                            class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Editmodal  -->
+<div class="modal fade" id="editAuthorModal" tabindex="-1" role="dialog" aria-labelledby="addBookModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="editForm" #editForm="ngForm" (ngSubmit)="onUpdateAuthor()" ngNativeValidate>
+                    <div class="form-group">
+                        <label for="bookname">Bookname:</label>
+                        <input [(ngModel)]="editAuthor.authorName" name="bookname" type="text" class="form-control"
+                            class="text" required>
+                    </div>
+                    <input ngModel="{{editAuthor?.id}}" name="id" type="hidden" class="form-control" id="username">
+                    <div class="modal-footer float-left">
+                        <button type="submit" class="btn btn-success">Save change</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Deletemodal -->
+<div class="modal fade" id="deleteAuthorModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>ARE U SURE TO REMOVE THIS AUTHOR {{deleteAuthor?.authorName}}?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button data-dismiss="modal" (click)="onDeleteAuthor(deleteAuthor?.id)" class="btn btn-primary"
+                    type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

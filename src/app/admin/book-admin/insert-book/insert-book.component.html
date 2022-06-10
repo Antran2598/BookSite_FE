@@ -1,0 +1,57 @@
+<form class="addform"  #f="ngForm" (ngSubmit)="onAddBook()" ngNativeValidate>
+    <h1 class="center-title">Add Book</h1>
+    <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label for="Bookname">Bookname</label>
+        <input type="text" [(ngModel)] ="book.bookName" [ngModelOptions]="{standalone: true}" class="form-control" id="Bookname" placeholder="Bookname" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="Author">Author</label>
+        <select id="author" class="form-control" [(ngModel)] ="book.author" [ngModelOptions]="{standalone: true}" required>
+          <option value="">-- Choose Author--</option>
+          <option [value]="author.id" *ngFor="let author of authorList">{{author.authorName}}</option>
+       </select>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="SalePrice">SalePrice</label>
+        <div class="input-group">
+          <input type="text"  [(ngModel)] ="book.salePrice" [ngModelOptions]="{standalone: true}"  class="form-control" id="SalePrice" placeholder="SalePrice" aria-describedby="validationTooltipUsernamePrepend" required>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label for="OriginalPrice">OriginalPrice</label>
+        <input type="text" [(ngModel)] ="book.originalPrice" [ngModelOptions]="{standalone: true}" class="form-control" id="OriginalPrice" placeholder="OriginalPrice" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="Category">Category</label>
+        <select id="category" class="form-control" [(ngModel)] ="book.category" [ngModelOptions]="{standalone: true}" required>
+          <option value="">-- Choose Category--</option>
+          <option [value]="category.id" *ngFor="let category of cateList">{{category.cateName}}</option>
+       </select>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="Publisher">Publisher</label>
+        <select id="publisher" class="form-control" [(ngModel)] ="book.publisher" [ngModelOptions]="{standalone: true}" required>
+          <option value="">-- Choose Publisher--</option>
+          <option [value]="publisher.id" *ngFor="let publisher of publisherList">{{publisher.pubName}}</option>
+       </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label for="Quantity">Quantity</label>
+        <input type="number" [(ngModel)] ="book.quantity" [ngModelOptions]="{standalone: true}" class="form-control" id="Quantity" value="0" placeholder="Quantity" min="0"required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="Description">Description</label>
+        <input type="text" [(ngModel)] ="book.description" [ngModelOptions]="{standalone: true}" class="form-control" id="Description" placeholder="Description" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="Picture">Picture URL</label>
+        <input type="text" [(ngModel)] ="book.picture" [ngModelOptions]="{standalone: true}" class="form-control" id="Picture" placeholder="Picture URL" required>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit changes</button>
+  </form>

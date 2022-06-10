@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light " *ngIf="this.tokenStorageService.getUser()">
+    <a class="navbar-nav" routerLink="user/shopping"><img  src="../../assets/image/logo.png" alt="logo" width= 56px height="44px"></a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="shopping" href="#">Shopping <span class="sr-only">(current)</span></a>
+        </li>
+        <!-- <li class="nav-item" *ngIf="this.currentUser.roles == 'ADMIN'">
+          <a class="nav-link" routerLink="user" href="#">Admin User</a>
+        </li> -->
+
+        <li class="nav-item dropdown" *ngIf="this.currentUser.roles == 'ADMIN'">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Admin
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" routerLink="book">Book</a>
+            <a class="dropdown-item" routerLink="category">Category</a>
+            <a class="dropdown-item" routerLink="author">Author</a>
+            <a class="dropdown-item" routerLink="publisher">Publisher</a>
+          </div>
+        </li>
+      </ul>  
+    </div>
+  </nav>

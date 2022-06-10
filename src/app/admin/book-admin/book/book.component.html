@@ -1,0 +1,150 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<h1 class="Center-title">Books</h1>
+<form class="search-form form-inline">
+  <input class="search form-control mr-sm-2" type="search" #key="ngModel" ngModel name="key" placeholder="Search" style="padding-left: 10px;">
+  <button (click)="searchBooks(key.value)" class="btn btn-outline-success my-2 my-sm-0 btn-search" type="submit">Search</button>
+  <a routerLink="/insertBook" class="btn btn-add btn-outline-primary"><i class="fa fa-plus-circle"></i>Add</a>
+</form>
+
+<!-- card_Product -->
+<div>
+<table class="table container" id="main-container">
+  <thead>
+      <tr>
+          <th scope="col">Image</th>
+          <th scope="col">BookName</th>
+          <th scope="col">Price</th>
+          <th scope="col">Editor</th>
+      </tr>
+  </thead>
+  <tbody *ngFor="let book of books | paginate: { itemsPerPage: 5, currentPage: p }">
+      <tr>
+          <td><a href=""><img src="../../../assets/image/{{book?.picture}}" alt="" class="img-fluid w-60"></a></td>
+          <td>{{book?.bookName}}</td>
+          <td>{{book?.salePrice | currency :'VND'}}</td>
+          <td>
+              <a (click)="onOpenModal(book, 'edit')" class="btn-edit btn btn-info tooltips" data-placement="top"
+                  data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+              <a (click)="onOpenModal(book, 'delete')" class="btn btn-danger tooltips" data-placement="top"
+                  data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
+          </td>
+      </tr>
+  </tbody>
+</table>
+<pagination-controls style="text-align:center" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+<!-- Editmodal  -->
+<div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="addBookModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-inline editForm" #editForm="ngForm" (ngSubmit)="onUpdateBook()" ngNativeValidate>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="bookname">Bookname:</label>
+              <input [(ngModel)]="editBook.bookName" name="bookname" type="text" class="form-control" class="text">
+            </div>
+          </div>
+          <input ngModel="{{editBook?.id}}" name="id" type="hidden" class="form-control" id="username">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="author">Author:</label>
+              <select id="author" class="form-control" [(ngModel)]="editBook.author"
+                [ngModelOptions]="{standalone: true}" placeholder="Author" required>
+                <option value="">-- Choose Author--</option>
+                <option [value]="author.id" *ngFor="let author of authorList">{{author.authorName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="price">SalePrice:</label>
+              <input [(ngModel)]="editBook.salePrice" name="salePrice" type="number" class="form-control" id="price">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="price">OriginalPrice:</label>
+              <input [(ngModel)]="editBook.originalPrice" name="originalPrice" type="number" class="form-control"
+                id="price">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="price">Category:</label>
+              <select id="category" class="form-control" [(ngModel)]="editBook.category"
+                [ngModelOptions]="{standalone: true}" placeholder="Category" required>
+                <option value="">-- Choose Category--</option>
+                <option [value]="category.id" *ngFor="let category of cateList">{{category.cateName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="price">Publisher:</label>
+              <select id="publisher" class="form-control" [(ngModel)]="editBook.publisher"
+                [ngModelOptions]="{standalone: true}" placeholder="Publisher" required>
+                <option value="">-- Choose Publisher--</option>
+                <option [value]="publisher.id" *ngFor="let publisher of publisherList">{{publisher.pubName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="price">Quantity:</label>
+              <input [(ngModel)]="editBook.quantity" name="quantity" type="number" class="form-control" id="price">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="price">Description:</label>
+              <input [(ngModel)]="editBook.description" name="description" type="text" class="form-control" id="price">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="picture">Picture:</label>
+              <input [(ngModel)]="editBook.picture" name="picture" type="text" class="form-control" id="picture">
+            </div>
+          </div>
+          <div class="modal-footer top-align">
+            <button type="submit" class="btn btn-success">Save change</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Deletemodal -->
+<div class="modal fade" id="deleteBookModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>ARE U SURE TO REMOVE THIS BOOK {{deleteBook?.bookName}}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button data-dismiss="modal" (click)="onDeleteBook(deleteBook?.id)" class="btn btn-primary" type="button"
+          class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

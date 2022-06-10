@@ -1,0 +1,124 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<form class="search-form">
+    <input class="form-control mr-sm-2" type="search" (ngModelChange)="searchUsers(key.value)" #key="ngModel" ngModel name="key" placeholder="Search">
+</form>
+<div class="container" id ="main-container">
+    <div class="row">
+        <div *ngFor="let user of users" class="col-md-6 col-xl-3">
+            <div class="card m-b-30">
+                <div class="card-body row">
+                    <div class="col-6">
+                        <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="img-fluid rounded-circle w-60"></a>
+                    </div>
+                    
+                    <div class="col-6 card-title align-self-center mb-0">
+                        <h5>{{user?.username}}</h5>
+                        <p class="m-0">Permission: {{user?.permision}}</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="float-right btn-group btn-group-sm">
+                        <a (click)="onOpenModal(user, 'edit')" class="btn btn-info tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                        <a (click)="onOpenModal(user, 'delete')" class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+  
+            </div>
+        </div>
+       
+    </div>
+    <a (click)="onOpenModal(null, 'add')" class="btn btn-add btn-primary"><i class="fa fa-plus-circle"></i>Add new user</a>
+</div>
+
+<!-- Addmodal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUserModalLabel">Add form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addForm ="ngForm" (ngSubmit)="onAddUser(addForm)">
+          <div class="form-group">
+            <label for="username" class="col-form-label">Username:</label>
+            <input type="text" ngModel name="username" class="form-control" id="username" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="col-form-label">Password:</label>
+            <input type="password" ngModel name="password" class="form-control" id="password" required>
+          </div>
+
+          <div class="form-group">
+            <label for="permission" class="col-form-label">Permission:</label>
+            <input type="text" ngModel name="permision" class="form-control" id="permission" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="add-user-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button [disabled]="addForm.invalid" class="btn btn-primary" type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Editmodal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #editForm="ngForm" (ngSubmit)="onUpdateUser(editForm.value)" >
+          <div class="form-group">
+            <label for="username" class="col-form-label">Username:</label>
+            <input ngModel="{{editUser?.username}}" name="username" type="text" class="form-control" id="username">
+          </div>
+          <input ngModel="{{editUser?.id}}" name="id" type="hidden" class="form-control" id="username">
+          <div class="form-group">
+            <label for="password" class="col-form-label">Password:</label>
+            <input ngModel="{{editUser?.password}}" name="password"  type="password" class="form-control" id="password">
+          </div>
+
+          <div class="form-group">
+            <label for="permission" class="col-form-label">Permission:</label>
+            <input  ngModel="{{editUser?.permision}}" name="permision"  type="text" class="form-control" id="permission">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button  type="submit" class="btn btn-success">Save change</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Deletemodal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>ARE U SURE TO REMOVE THIS USER {{deleteUser?.username}}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button (click)="onDeleteUser(deleteUser?.id)" class="btn btn-primary"type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
